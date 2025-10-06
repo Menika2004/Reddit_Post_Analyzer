@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Saved Reddit Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .post {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .post-title {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .filter {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📁 Saved Reddit Posts</h1>
+
+    <form method="get" class="filter">
+        <label for="subreddit">Filter by Subreddit:</label>
+        <input type="text" name="subreddit" id="subreddit" value="{{ request.GET.subreddit }}">
+        <button type="submit">Filter</button>
+        <a href="{% url 'saved_posts' %}">Reset</a>
+    </form>
+
+    {% if posts %}
+        {% for post in posts %}
+            <div class="post">
+                <div class="post-title">{{ post.title }}</div>
+                <div>Score: {{ post.score }} | Comments: {{ post.comments }}</div>
+                <div>Subreddit: {{ post.subreddit }}</div>
+                <a href="{{ post.url }}" target="_blank">🔗 View Post</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No saved posts found.</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'home' %}">⬅ Back to Home</a>
+</body>
+</html>
